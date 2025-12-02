@@ -10,58 +10,63 @@
         font-family: 'Noto Sans KR', sans-serif;
         margin: 0;
         padding: 0;
-        background: #f9fafc;
-        color: #1e2a38;
+        background: #ffffff;
+        color: #000000;
     }
 
-    /* 헤더 영역 - 바다 그라데이션 */
+    /* 헤더 - 오션 블루 그라데이션 유지 */
     .header {
-        background: linear-gradient(135deg, #1d3c6a, #3b6ca8, #87b7ff);
         padding: 40px 20px;
         text-align: center;
+        background: linear-gradient(135deg, #1d3c6a, #3b6ca8, #87b7ff);
         color: white;
     }
     .header h1 {
         margin: 0;
         font-size: 24px;
-        letter-spacing: 1px;
-        font-weight: 600;
+        font-weight: 700;
     }
     .header p {
         margin-top: 10px;
-        opacity: 0.9;
         font-size: 14px;
+        opacity: 0.9;
     }
 
-    /* 질문 컨테이너 */
+    /* 컨테이너 */
     .container {
         max-width: 550px;
         margin: 30px auto;
-        background: white;
+        background: #ffffff;
         padding: 25px 20px;
         border-radius: 14px;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.06);
     }
 
     .question {
-        margin-bottom: 20px;
+        margin-bottom: 22px;
     }
 
     select {
         width: 100%;
         padding: 10px;
         border-radius: 8px;
-        border: 1px solid #cfd6e1;
+        border: 1px solid #cfcfcf;
+        background: #fafafa;
+        color: #000;
         font-size: 15px;
-        background: #f7f9fc;
     }
 
-    /* 버튼 */
+    select:focus {
+        border-color: #000000;
+        outline: none;
+    }
+
+    /* 버튼 - 블랙 스타일 */
     button {
         width: 100%;
         padding: 14px;
         margin-top: 10px;
-        background: #1d3c6a;
+        background: #000;
         color: white;
         border: none;
         font-size: 16px;
@@ -70,20 +75,17 @@
         transition: 0.2s;
     }
     button:hover {
-        background: #163253;
+        background: #333;
     }
 
     /* 결과 박스 */
     .result-box {
-        background: linear-gradient(135deg, #fefefe, #f0f4ff);
+        background: #f8f8f8;
         border-left: 5px solid #1d3c6a;
         padding: 20px;
         border-radius: 10px;
         margin-top: 20px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-    .result-box h2 {
-        margin-top: 0;
     }
 
     .hidden { display:none; }
@@ -95,7 +97,7 @@
 
 <div class="header">
     <h1>YourOcean 진로 성향 테스트</h1>
-    <p>바다처럼 각자의 흐름과 방향을 찾기 위한 10문항</p>
+    <p>나의 흐름을 찾기 위한 10개의 질문</p>
 </div>
 
 <div class="container" id="quiz">
@@ -120,6 +122,7 @@
                 <div class='question'>
                     <p><b>${i+1}. ${q}</b></p>
                     <select id='q${i+1}' required>
+                        <option value="" disabled selected>선택해주세요</option>
                         <option value="1">1 - 전혀 아니다</option>
                         <option value="2">2 - 아니다</option>
                         <option value="3">3 - 보통</option>
@@ -147,7 +150,12 @@ function calculate() {
     let total = 0;
 
     for (let i = 1; i <= 10; i++) {
-        total += Number(document.getElementById("q" + i).value);
+        const value = document.getElementById("q" + i).value;
+        if (!value) {
+            alert("모든 문항을 선택해주세요.");
+            return;
+        }
+        total += Number(value);
     }
 
     let result = "";
@@ -156,22 +164,22 @@ function calculate() {
         result =
         "🌊 <b>창업형 성향</b><br><br>" +
         "스스로 방향을 결정하고 실행하는 힘이 강합니다.<br>" +
-        "문제를 해결하고 새로운 흐름을 만드는 사람이에요.<br><br>" +
-        "— ‘바다를 가르는 파도’ 같은 스타일";
+        "문제를 해결하고 새로운 흐름을 만드는 스타일이에요.<br><br>" +
+        "<i>— 바다의 파도를 직접 만들어내는 유형</i>";
     } 
     else if (total >= 30) {
         result =
         "💫 <b>듀얼형 성향</b><br><br>" +
         "실무 경험을 쌓으면 창업에서도 강점을 발휘할 타입입니다.<br>" +
-        "안정과 도전 사이의 균형이 좋으며, 경험이 쌓일수록 방향이 더 선명해집니다.<br><br>" +
-        "— ‘잔잔한 물결 속에서 기회를 읽는 타입’";
+        "안정과 도전 사이의 균형이 뛰어난 사람들이에요.<br><br>" +
+        "<i>— 잔잔한 물결 속에서 기회를 발견하는 유형</i>";
     } 
     else {
         result =
         "🌙 <b>취업형 성향</b><br><br>" +
         "안정적인 구조 안에서 전문성을 쌓는 데 강합니다.<br>" +
-        "조직 내에서 깊이 있는 역할을 갖고 성장하는 스타일입니다.<br><br>" +
-        "— ‘깊은 바다처럼 단단한 축을 가진 스타일’";
+        "조직 내에서 깊이 있는 성장과 역할 수행이 돋보여요.<br><br>" +
+        "<i>— 깊고 안정된 바다처럼 신뢰를 주는 유형</i>";
     }
 
     document.getElementById("resultText").innerHTML = result;
